@@ -17,8 +17,6 @@ def get_soup(search_term):
 		else:
 			with open(f'{search_term}.txt', 'w') as ofile:
 				for para in all_match:
-					# print(para.text, file=ofile)
-					# print('\n', file=ofile)
 					ofile.write(para.text)
 					ofile.write('\n')
 
