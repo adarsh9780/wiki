@@ -26,25 +26,25 @@ def get_soup(search_term, action=None):
 				print('action is not none')
 				text = ''
 				for para in all_match:
-					text = text + para.text
-					# if take_input():
-					# 	continue
-					# else:
-					# 	break
-				# pretty print
+					text = text + '\n' + para.text
+
+				# print first screen completely
 				size = os.get_terminal_size()
 				cols, lines = size.columns, size.lines
-				total_chars = cols*lines-cols
-				print(text[:total_chars])
-				counter = total_chars
-				while counter < len(text):
-					end = counter+cols # index of last charcter to be printed
-					# if last char is not space
-					while (text[end] != ' ') or (text[end] != '\n'):
-						end = end-1
-					# print one line at a time
-					print(text[counter: end], end='')
-					counter = end
+				# no. of chars that can be accomodated one screen space
+				total_chars = cols*(lines-1)
+				start = 0
+				end = get_end_index(text[start:total_chars])
+				# print(f'Outside; start: {start}, end: {end}')
+				print(text[start:end])
+				# print(f'start: {start}, end: {end}')
+
+				# print rest of the charcters, one line at a time
+				while end < len(text):
+					start = end
+					end = get_end_index(text[0:end+cols])
+					# print(f'start: {start}, end: {end}')
+					print(text[start:end], end='')
 					if take_input():
 						continue
 					else:
@@ -57,6 +57,10 @@ def take_input():
 	else:
 		return False
 
+def get_end_index(sub_str):
+	for i in range(len(sub_str)-1, -1, -1):
+		if (sub_str[i] == '\n') or (sub_str[i] == ' '):
+			return i
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
