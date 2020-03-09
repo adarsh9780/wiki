@@ -10,4 +10,5 @@
 This script looks for a `keyword` provided by the user as a command line argument. If article corresponding to the keyword is found on wikipedia, it will save that article in the same location from where the script is ran.
 
 ## Future Work
-- Add print functionality to print one line at a time
+- Add print functionality to print one line at a time[Raw]
+- Add print functionality using more command
