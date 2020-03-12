@@ -2,6 +2,55 @@ from bs4 import BeautifulSoup
 import requests
 import argparse
 import os
+import subprocess
+import io
+
+# def get_soup(search_term, action=None):
+# 	try:
+# 		source = requests.get(f'https://en.wikipedia.org/wiki/{search_term}').text
+# 	except requests.exceptions.ConnectionError:
+# 		print(f'Error: Network Error')
+# 	else:
+# 		soup = BeautifulSoup(source, 'lxml')
+# 		match = soup.find('div', class_='mw-parser-output')
+# 		try:
+# 			all_match = match.find_all('p')
+# 		except AttributeError:
+# 			print(f'Error: Wikipedia does not have any articles on {search_term}')
+# 		else:
+# 			if action is None:
+# 				print('action is None')
+# 				with open(f'{search_term}.txt', 'w') as ofile:
+# 					for para in all_match:
+# 						ofile.write(para.text)
+# 						ofile.write('\n')
+# 			elif action:
+# 				print('action is not none')
+# 				text = ''
+# 				for para in all_match:
+# 					text = text + '\n' + para.text
+#
+# 				# print first screen completely
+# 				size = os.get_terminal_size()
+# 				cols, lines = size.columns, size.lines
+# 				# no. of chars that can be accomodated one screen space
+# 				total_chars = cols*(lines-1)
+# 				start = 0
+# 				end = get_end_index(text[start:total_chars])
+# 				# print(f'Outside; start: {start}, end: {end}')
+# 				print(text[start:end])
+# 				# print(f'start: {start}, end: {end}')
+#
+# 				# print rest of the charcters, one line at a time
+# 				while end < len(text):
+# 					start = end
+# 					end = get_end_index(text[0:end+cols])
+# 					# print(f'start: {start}, end: {end}')
+# 					print(text[start:end], end='')
+# 					if take_input():
+# 						continue
+# 					else:
+# 						break
 
 def get_soup(search_term, action=None):
 	try:
@@ -17,38 +66,26 @@ def get_soup(search_term, action=None):
 			print(f'Error: Wikipedia does not have any articles on {search_term}')
 		else:
 			if action is None:
-				print('action is None')
-				with open(f'{search_term}.txt', 'w') as ofile:
+				# print('action is None')
+				with open(f'resources/{search_term}.txt', 'w') as ofile:
 					for para in all_match:
 						ofile.write(para.text)
 						ofile.write('\n')
 			elif action:
-				print('action is not none')
+				# print('action is not none')
 				text = ''
 				for para in all_match:
 					text = text + '\n' + para.text
 
-				# print first screen completely
-				size = os.get_terminal_size()
-				cols, lines = size.columns, size.lines
-				# no. of chars that can be accomodated one screen space
-				total_chars = cols*(lines-1)
-				start = 0
-				end = get_end_index(text[start:total_chars])
-				# print(f'Outside; start: {start}, end: {end}')
-				print(text[start:end])
-				# print(f'start: {start}, end: {end}')
+				try:
+					os.mkdir('resources')
+				except FileExistsError:
+					pass
+				with open(f'resources/{search_term}.txt', 'w') as ofile:
+					ofile.write(text)
 
-				# print rest of the charcters, one line at a time
-				while end < len(text):
-					start = end
-					end = get_end_index(text[0:end+cols])
-					# print(f'start: {start}, end: {end}')
-					print(text[start:end], end='')
-					if take_input():
-						continue
-					else:
-						break
+				subprocess.run(['more', f'resources/{search_term}.txt'])
+
 
 def take_input():
 	ipt = input()

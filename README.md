@@ -8,7 +8,8 @@
 
 ## DESCRIPTION
 This script looks for a `keyword` provided by the user as a command line argument. If article corresponding to the keyword is found on wikipedia, it will save that article in the same location from where the script is ran.
+ Text files will be saved in a directory called `resources`. By default, script will just save the text files, specify `-p` option to print the content to scree as well.
 
 ## Future Work
 - Add print functionality to print one line at a time[Raw]
-- Add print functionality using more command
+- Add print functionality using more command - Done
